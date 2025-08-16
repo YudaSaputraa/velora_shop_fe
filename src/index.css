@@ -1,0 +1,260 @@
+.pointer {
+  cursor: pointer;
+}
+
+/* Custom Color Palette Variables */
+:root {
+  --primary-color: #7ADAA5;
+  --secondary-color: #239BA7;
+  --accent-color: #ECECBB;
+  --success-color: #E1AA36;
+  
+  /* Lighter and darker variations */
+  --primary-light: #9EE4C1;
+  --primary-dark: #5BCA8A;
+  --secondary-light: #2BB3C0;
+  --secondary-dark: #1A7A85;
+  --accent-light: #F2F2D1;
+  --accent-dark: #D9D9A8;
+  --success-light: #E8B95A;
+  --success-dark: #D1942A;
+}
+
+/* Custom Color Classes - Backgrounds */
+.bg-velora-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.bg-velora-secondary {
+  background-color: var(--secondary-color) !important;
+}
+
+.bg-velora-accent {
+  background-color: var(--accent-color) !important;
+}
+
+.bg-velora-success {
+  background-color: var(--success-color) !important;
+}
+
+.bg-velora-primary-light {
+  background-color: var(--primary-light) !important;
+}
+
+.bg-velora-secondary-light {
+  background-color: var(--secondary-light) !important;
+}
+
+.bg-velora-accent-light {
+  background-color: var(--accent-light) !important;
+}
+
+.bg-velora-success-light {
+  background-color: var(--success-light) !important;
+}
+
+/* Custom Color Classes - Buttons */
+.btn-velora-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.btn-velora-primary:hover {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
+.btn-velora-primary:focus {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+  box-shadow: 0 0 0 0.25rem rgba(122, 218, 165, 0.25) !important;
+}
+
+.btn-velora-secondary {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+  color: #fff !important;
+}
+
+.btn-velora-secondary:hover {
+  background-color: var(--secondary-dark) !important;
+  border-color: var(--secondary-dark) !important;
+}
+
+.btn-velora-secondary:focus {
+  background-color: var(--secondary-dark) !important;
+  border-color: var(--secondary-dark) !important;
+  box-shadow: 0 0 0 0.25rem rgba(35, 155, 167, 0.25) !important;
+}
+
+.btn-velora-accent {
+  background-color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
+  color: #333 !important;
+}
+
+.btn-velora-accent:hover {
+  background-color: var(--accent-dark) !important;
+  border-color: var(--accent-dark) !important;
+}
+
+.btn-velora-accent:focus {
+  background-color: var(--accent-dark) !important;
+  border-color: var(--accent-dark) !important;
+  box-shadow: 0 0 0 0.25rem rgba(236, 236, 187, 0.25) !important;
+}
+
+.btn-velora-success {
+  background-color: var(--success-color) !important;
+  border-color: var(--success-color) !important;
+  color: #fff !important;
+}
+
+.btn-velora-success:hover {
+  background-color: var(--success-dark) !important;
+  border-color: var(--success-dark) !important;
+}
+
+.btn-velora-success:focus {
+  background-color: var(--success-dark) !important;
+  border-color: var(--success-dark) !important;
+  box-shadow: 0 0 0 0.25rem rgba(225, 170, 54, 0.25) !important;
+}
+
+/* Custom Color Classes - Text */
+.text-velora-primary {
+  color: var(--primary-color) !important;
+}
+
+.text-velora-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.text-velora-accent {
+  color: var(--accent-color) !important;
+}
+
+.text-velora-success {
+  color: var(--success-color) !important;
+}
+
+.text-velora-primary-light {
+  color: var(--primary-light) !important;
+}
+
+.text-velora-secondary-light {
+  color: var(--secondary-light) !important;
+}
+
+.text-velora-accent-light {
+  color: var(--accent-light) !important;
+}
+
+.text-velora-success-light {
+  color: var(--success-light) !important;
+}
+
+/* Custom Color Classes - Borders */
+.border-velora-primary {
+  border-color: var(--primary-color) !important;
+}
+
+.border-velora-secondary {
+  border-color: var(--secondary-color) !important;
+}
+
+.border-velora-accent {
+  border-color: var(--accent-color) !important;
+}
+
+.border-velora-success {
+  border-color: var(--success-color) !important;
+}
+
+/* Custom Form Controls */
+.form-control:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 0.25rem rgba(122, 218, 165, 0.25) !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.form-check-input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 0.25rem rgba(122, 218, 165, 0.25) !important;
+}
+
+/* Custom Link colors */
+a {
+  color: var(--primary-color);
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+/* Custom Navbar styling */
+.navbar-velora {
+  background-color: var(--primary-color) !important;
+}
+
+.navbar-velora .navbar-brand {
+  color: #fff !important;
+}
+
+.navbar-velora .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.navbar-velora .navbar-nav .nav-link:hover {
+  color: #fff !important;
+}
+
+/* Custom Card styling */
+.card-velora {
+  border-color: rgba(122, 218, 165, 0.2) !important;
+}
+
+.card-header-velora {
+  background-color: rgba(122, 218, 165, 0.1) !important;
+  border-bottom-color: rgba(122, 218, 165, 0.2) !important;
+}
+
+/* Custom Table styling */
+.table-velora-primary {
+  background-color: rgba(122, 218, 165, 0.1) !important;
+}
+
+.table-velora-primary th,
+.table-velora-primary td {
+  border-color: rgba(122, 218, 165, 0.2) !important;
+}
+
+/* Custom Alert styling */
+.alert-velora-primary {
+  background-color: rgba(122, 218, 165, 0.1) !important;
+  border-color: rgba(122, 218, 165, 0.2) !important;
+  color: var(--primary-dark) !important;
+}
+
+.alert-velora-secondary {
+  background-color: rgba(35, 155, 167, 0.1) !important;
+  border-color: rgba(35, 155, 167, 0.2) !important;
+  color: var(--secondary-dark) !important;
+}
+
+.alert-velora-success {
+  background-color: rgba(225, 170, 54, 0.1) !important;
+  border-color: rgba(225, 170, 54, 0.2) !important;
+  color: var(--success-dark) !important;
+}
+
+.alert-velora-accent {
+  background-color: rgba(236, 236, 187, 0.3) !important;
+  border-color: rgba(236, 236, 187, 0.4) !important;
+  color: #333 !important;
+}
