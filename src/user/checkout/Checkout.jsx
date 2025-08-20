@@ -27,7 +27,7 @@ const AddressSection = () => (
   <div className="rounded border shadow p-3 bg-white">
     <div className="d-flex justify-content-between align-items-center">
       <p className="h5 text-muted">Alamat Pengiriman</p>
-                      <button className="btn btn-velora-accent">Ganti</button>
+      <button className="btn btn-velora-accent">Ganti</button>
     </div>
     <p className="h6">Nama User</p>
     <p className="fst-italic">Jln Merdeka Finansial, Jawa Barat</p>
@@ -97,10 +97,10 @@ const Summary = ({ checkoutProduct }) => (
     <p>
       Total: Rp{" "}
       {checkoutProduct
-        .reduce((acc, product) => acc + product.subtotal, 0)
+        .reduce((acc, product) => acc + Number(product.subtotal), 0)
         .toLocaleString("id-ID")}
     </p>
-                    <button className="btn btn-velora-primary w-100">Bayar Sekarang</button>
+    <button className="btn btn-velora-primary w-100">Bayar Sekarang</button>
   </div>
 );
 

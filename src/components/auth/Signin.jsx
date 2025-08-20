@@ -1,19 +1,35 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSigninMutation } from "../../api/req/ApiAuth";
+import { setLogin } from "../../api/slice/AuthSlice";
+import { toast } from "react-toastify";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signin, { isLoading, error }] = useSigninMutation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShow, setShow] = useState(false);
 
-  const loginHandler = (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
 
     const data = { email, password };
 
-    console.log(data);
+    try {
+      const response = await signin(data).unwrap();
+      dispatch(setLogin(response.data));
+      navigate("/user-dashboard");
+      console.log(response);
+    } catch (error) {
+      toast.error(error.data.message);
+      console.log(error);
+    }
+
+    // console.log(data);
   };
 
   return (
@@ -63,7 +79,11 @@ const Signin = () => {
         </div>
 
         <div className="text-end">
-          <button type="submit" className="btn btn-velora-primary">
+          <button
+            type="submit"
+            className="btn btn-velora-primary"
+            disabled={isLoading}
+          >
             Masuk
           </button>
         </div>

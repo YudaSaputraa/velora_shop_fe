@@ -20,7 +20,6 @@ const Index = () => {
 
   const categoriesData = categories?.data || [];
   const { data = [], totalPages, totalProducts } = rawData;
-
   const handleReset = () => {
     setSearch("");
     setCategoryId("");

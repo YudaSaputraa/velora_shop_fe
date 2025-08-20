@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
 const Images = ({ product }) => {
-  const [img, setImg] = useState(product.images[0].link);
+  const initalImg =
+    product.images && product.images?.length > 0
+      ? product.images[0].link
+      : "/image/no-data.png";
+  const [img, setImg] = useState(initalImg);
   return (
     <div className="rounded p-2 bg-white border border-2 shadow w-100">
       <div className="overflow-hidden rounded" style={{ height: 240 }}>

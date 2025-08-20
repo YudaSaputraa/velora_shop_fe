@@ -4,20 +4,20 @@
 
 /* Custom Color Palette Variables */
 :root {
-  --primary-color: #7ADAA5;
-  --secondary-color: #239BA7;
-  --accent-color: #ECECBB;
-  --success-color: #E1AA36;
-  
+  --primary-color: #7adaa5;
+  --secondary-color: #239ba7;
+  --accent-color: #ececbb;
+  --success-color: #e1aa36;
+
   /* Lighter and darker variations */
-  --primary-light: #9EE4C1;
-  --primary-dark: #5BCA8A;
-  --secondary-light: #2BB3C0;
-  --secondary-dark: #1A7A85;
-  --accent-light: #F2F2D1;
-  --accent-dark: #D9D9A8;
-  --success-light: #E8B95A;
-  --success-dark: #D1942A;
+  --primary-light: #9ee4c1;
+  --primary-dark: #5bca8a;
+  --secondary-light: #2bb3c0;
+  --secondary-dark: #1a7a85;
+  --accent-light: #f2f2d1;
+  --accent-dark: #d9d9a8;
+  --success-light: #e8b95a;
+  --success-dark: #d1942a;
 }
 
 /* Custom Color Classes - Backgrounds */
