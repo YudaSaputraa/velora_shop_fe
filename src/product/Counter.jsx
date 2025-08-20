@@ -74,7 +74,7 @@ const Counter = ({ product }) => {
         <button className="btn btn-outline-success" onClick={handleBuy}>
           Beli
         </button>
-                        <button className="btn btn-velora-success">+ Keranjang</button>
+        <button className="btn btn-velora-success">+ Keranjang</button>
       </div>
     </div>
   );

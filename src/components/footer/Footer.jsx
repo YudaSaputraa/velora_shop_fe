@@ -9,8 +9,8 @@ const Footer = ({ categories }) => {
       <div className="container">
         <div className="row g-2 h-100 w-100">
           <div className="col-lg-3 col-12">
-            <p className="fw-bold fs-5">AlmaDev</p>
-            <p className="zfst-italic">Jln Merdeka Finansial Jawa Barat</p>
+            <p className="fw-bold fs-5">KommaDev</p>
+            <p className="zfst-italic">Yogyakarta</p>
           </div>
           <div className="col-lg-3 col-12">
             <p className="fs-5 fw-bold">Kategori Produk</p>

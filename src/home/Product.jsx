@@ -17,7 +17,11 @@ const Product = ({ product }) => {
     >
       <div style={{ height: 170 }} className="w-100 border">
         <img
-          // src={product.images[0].link}
+          src={
+            product.images.length > 0
+              ? product.images[0].link
+              : "/image/no-data.png"
+          }
           alt={`Gambar produl ${product.name}`}
           width="100%"
           height="100%"
@@ -35,7 +39,10 @@ const Product = ({ product }) => {
         ).toLocaleString("id-ID")}`}</p>
 
         <div className="d-flex align-items-center gap-2">
-          <i className="bi bi-star-fill" style={{ color: "var(--success-color)" }}></i>
+          <i
+            className="bi bi-star-fill"
+            style={{ color: "var(--success-color)" }}
+          ></i>
 
           <p className="m-0">{product.rating}</p>
 
