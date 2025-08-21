@@ -16,7 +16,7 @@ const Index = () => {
   const { data: rawData = {}, isLoading: productIsLoading } =
     useGetProductsQuery({ search, page, limit, categoryId });
   const { data: categories, isLoading: categoriesIsLoading } =
-    useGetCategoriesQuery();
+    useGetCategoriesQuery({ search, page: "", limit: "" });
 
   const categoriesData = categories?.data || [];
   const { data = [], totalPages, totalProducts } = rawData;

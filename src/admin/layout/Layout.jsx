@@ -10,7 +10,7 @@ const Layout = ({ children, pageName }) => {
       <div className="container-fluid bg-velora-secondary">
         <header className="navbar navbar-dark sticky-top flex-md-nowrap p-2">
           <a className="navbar-brand col-md-3 col-lg-2 me-0 px-5" href="/">
-            Nama Aplikasi
+            Velora
           </a>
           <button
             className="position-absolute  d-md-none collapsed btn btn-light"

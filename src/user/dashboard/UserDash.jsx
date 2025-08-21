@@ -136,7 +136,7 @@ const UserDash = () => {
                   className="btn btn-velora-success"
                   disabled={isLoading}
                 >
-                  Update
+                  {isLoading ? "Loading.." : "Update"}
                 </button>
               </div>
             </form>

@@ -1,12 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../layout/Layout";
 import TableComponent from "../table/TableComponent";
-import { categories } from "../../Data";
+import {
+  useAddCategoryMutation,
+  useGetCategoriesQuery,
+} from "../../api/req/ApiCategory";
+import { toast } from "react-toastify";
 
 const AdminCat = () => {
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
+  const id = "addCategory";
+
+  const [name, setName] = useState("");
+  const { data: rawData, isLoading } = useGetCategoriesQuery({
+    search,
+    page,
+    limit,
+  });
+  const [
+    addCategoryData,
+    { data, isLoading: isLoadingCategory, error, isSuccess, reset },
+  ] = useAddCategoryMutation();
+
+  const categories = rawData?.data;
+  const addHandler = () => {
+    const data = { name };
+    addCategoryData(data);
+  };
+  const closeModalHandler = () => {
+    setName("");
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message);
+      reset();
+    }
+    if (error) {
+      toast.error(error.data.message);
+      reset();
+    }
+  }, [isSuccess, error]);
   return (
     <Layout pageName={"Daftar Kategori"}>
-      <TableComponent height={"75vh"}>
+      <TableComponent
+        page={page}
+        setPages={(e) => setPage(e)}
+        totalPages={rawData?.totalPages}
+        totalData={rawData?.totalCategory}
+        setLimit={(e) => setLimit(e)}
+        setSearch={(e) => setSearch(e)}
+        id={id}
+        height={"75vh"}
+      >
         <table className="table table-hover table-striped">
           <thead>
             <tr>
@@ -33,6 +81,63 @@ const AdminCat = () => {
           </tbody>
         </table>
       </TableComponent>
+
+      <div
+        className="modal fade"
+        id={id}
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Add Category
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeModalHandler}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <input
+                type="text"
+                name="category"
+                className="form-control"
+                id="category_name"
+                value={name || ""}
+                placeholder="Category Name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                disabled={isLoading}
+                onClick={closeModalHandler}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-velora-primary"
+                onClick={addHandler}
+                disabled={isLoading}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };

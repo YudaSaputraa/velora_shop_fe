@@ -31,6 +31,13 @@ export const ApiAddress = createApi({
         method: "GET",
       }),
     }),
+    addAddress: builder.mutation({
+      query: (body) => ({
+        url: "/add-address",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -39,4 +46,5 @@ export const {
   useGetCityQuery,
   useGetDistrictQuery,
   useGetVillageQuery,
+  useAddAddressMutation,
 } = ApiAddress;

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
+  useAddAddressMutation,
   useGetCityQuery,
   useGetDistrictQuery,
   useGetProvincesQuery,
   useGetVillageQuery,
 } from "../../api/req/ApiAddress";
+import { toast } from "react-toastify";
+import { useLoadUserMutation } from "../../api/req/ApiAuth";
 const Address = ({ user }) => {
   const [formData, setFormData] = useState({
+    id: "",
     province_id: "",
     province: "",
     city_id: "",
@@ -27,10 +31,31 @@ const Address = ({ user }) => {
   const { data: villages } = useGetVillageQuery(formData.district_id, {
     skip: !formData.district_id,
   });
+  const [loadUser] = useLoadUserMutation();
+  const [addAddress, { data, isSuccess, isLoading, error, reset }] =
+    useAddAddressMutation();
+
+  const handleChange = (e, list, idKey, nameKey) => {
+    const { name, value } = e.target;
+    const selectedItem = list?.find((item) => item[idKey] === value);
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      [name.replace("_id", "")]: selectedItem ? selectedItem[nameKey] : "",
+    }));
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    addAddress(formData);
+    console.log(formData);
+  };
 
   useEffect(() => {
     if (user) {
       setFormData({
+        id: user.address?.id || "",
         province_id: user.address?.province_id || "",
         province: user.address?.province || "",
         city_id: user.address?.city_id || "",
@@ -43,14 +68,24 @@ const Address = ({ user }) => {
       });
     }
   }, [user]);
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message);
+      reset();
+    }
+    if ((isSuccess, error)) {
+      toast.error(error.data.message);
+      reset();
+    }
+  });
   return (
-    <form className="d-flex flex-column gap-3">
+    <form className="d-flex flex-column gap-3" onSubmit={submitHandler}>
       <select
-        name="provinces"
+        name="province_id"
         id="province"
         className="form-select"
         value={formData.province_id || ""}
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => handleChange(e, provinces, "id", "name")}
       >
         <option value="" hidden>
           Provinsi
@@ -63,11 +98,11 @@ const Address = ({ user }) => {
       </select>
 
       <select
-        name="cities"
+        name="city_id"
         id="city"
         className="form-select"
         value={formData.city_id || ""}
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => handleChange(e, cities, "id", "name")}
       >
         <option value="" hidden>
           Kota / Kabupaten
@@ -80,11 +115,11 @@ const Address = ({ user }) => {
       </select>
 
       <select
-        name="district"
+        name="district_id"
         id="district"
         className="form-select"
         value={formData.district_id || ""}
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => handleChange(e, districts, "id", "name")}
       >
         <option value="" hidden>
           Kecamatan
@@ -97,11 +132,11 @@ const Address = ({ user }) => {
       </select>
 
       <select
-        name="village"
+        name="village_id"
         id="village"
         className="form-select"
         value={formData.village_id || ""}
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => handleChange(e, villages, "id", "name")}
       >
         <option value="" hidden>
           Desa
@@ -114,16 +149,21 @@ const Address = ({ user }) => {
       </select>
 
       <textarea
-        name="address"
-        id="address"
+        name="detail"
+        id="detail"
         value={formData.detail || ""}
         className="form-control"
         placeholder="Alamat Lengkap"
         rows={4}
+        onChange={(e) =>
+          setFormData((prev) => ({ ...prev, detail: e.target.value }))
+        }
       ></textarea>
 
       <div className="text-end">
-        <button className="btn btn-velora-success">Update</button>
+        <button type="submit" className="btn btn-velora-success">
+          {isLoading ? "Loading.." : "Update"}
+        </button>
       </div>
     </form>
   );

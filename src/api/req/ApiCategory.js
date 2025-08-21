@@ -9,13 +9,22 @@ export const ApiCategory = createApi({
   tagTypes: ["categories"],
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: () => ({
+      query: ({ search, page, limit }) => ({
         url: "/get-categories",
         method: "GET",
+        params: { search, page, limit },
       }),
       providesTags: ["categories"],
+    }),
+    addCategory: builder.mutation({
+      query: (body) => ({
+        url: "/add-category",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["categories"],
     }),
   }),
 });
 
-export const { useGetCategoriesQuery } = ApiCategory;
+export const { useGetCategoriesQuery, useAddCategoryMutation } = ApiCategory;
