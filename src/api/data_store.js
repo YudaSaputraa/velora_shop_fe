@@ -5,6 +5,8 @@ import AuthSlice from "./slice/AuthSlice";
 import { ApiAuth } from "./req/ApiAuth";
 import { ApiUser } from "./req/ApiUser";
 import { ApiAddress } from "./req/ApiAddress";
+import { ApiOrder } from "./req/ApiOrder";
+import { ApiCart } from "./req/ApiCart";
 
 const data_store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ const data_store = configureStore({
     [ApiAddress.reducerPath]: ApiAddress.reducer,
     [ApiProduct.reducerPath]: ApiProduct.reducer,
     [ApiCategory.reducerPath]: ApiCategory.reducer,
+    [ApiOrder.reducerPath]: ApiOrder.reducer,
+    [ApiCart.reducerPath]: ApiCart.reducer,
   },
   middleware: (geDefaultMiddleware) =>
     geDefaultMiddleware().concat([
@@ -22,6 +26,8 @@ const data_store = configureStore({
       ApiAddress.middleware,
       ApiProduct.middleware,
       ApiCategory.middleware,
+      ApiOrder.middleware,
+      ApiCart.middleware,
     ]),
 });
 

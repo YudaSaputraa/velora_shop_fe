@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = ({ setSearch }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isSmall, setSmall] = useState(window.innerWidth > 768);
-  const isUser = false;
+  const { user } = useSelector((state) => state.auth);
+  const isUser = user.id;
   const home = location.pathname;
   const [value, setValue] = useState("");
 
@@ -44,8 +46,8 @@ const Navbar = ({ setSearch }) => {
                 onClick={() => navigate("/")}
               >
                 <img
-                  src="/image/logo.png"
-                  width="80%"
+                  src="/image/icon_v.png"
+                  width="110%"
                   style={{ objectFit: "cover" }}
                   alt="Logo"
                 />
@@ -57,7 +59,7 @@ const Navbar = ({ setSearch }) => {
             <div className="col-lg-4 col-6 d-flex align-items-center">
               <input
                 type="text"
-                placeholder="Cari apa aja..."
+                placeholder="Search here"
                 className="form-control"
                 value={value || ""}
                 onChange={handleSearch}

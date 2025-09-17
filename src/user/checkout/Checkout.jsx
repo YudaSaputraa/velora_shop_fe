@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGetShippingCostMutation } from "../../api/req/ApiAddress";
+import { useSelector } from "react-redux";
+import { useCreateOrderMutation } from "../../api/req/ApiOrder";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const navigate = useNavigate();
+
   return (
-    <div className="p-2 bg-white shadow">
+    <div className="p-1 bg-velora-primary shadow">
       <div className="container">
         <div
           className="overflow-hidden"
@@ -13,7 +18,7 @@ const Header = () => {
           role="button"
         >
           <img
-            src="/image/logo.png"
+            src="/image/icon_v.png"
             width="100%"
             style={{ objectFit: "cover" }}
           />
@@ -23,18 +28,30 @@ const Header = () => {
   );
 };
 
-const AddressSection = () => (
-  <div className="rounded border shadow p-3 bg-white">
-    <div className="d-flex justify-content-between align-items-center">
-      <p className="h5 text-muted">Alamat Pengiriman</p>
-      <button className="btn btn-velora-accent">Ganti</button>
+const AddressSection = () => {
+  const { isSignin, user } = useSelector((state) => state.auth);
+  return (
+    <div className="rounded border shadow p-3 bg-white">
+      <div className="d-flex justify-content-between align-items-center">
+        <p className="h5 text-muted">Alamat Pengiriman</p>
+        <button className="btn btn-velora-accent">Ganti</button>
+      </div>
+      <p className="h6">{user?.name}</p>
+      <p className="fst-italic">{user?.address?.detail}</p>
     </div>
-    <p className="h6">Nama User</p>
-    <p className="fst-italic">Jln Merdeka Finansial, Jawa Barat</p>
-  </div>
-);
+  );
+};
 
-const ProductItem = ({ product, updateQuantity }) => (
+const ProductItem = ({
+  product,
+  updateQuantity,
+  courier,
+  setCourier,
+  isLoading,
+  services,
+  service,
+  setService,
+}) => (
   <div className="row align-items-center">
     <div className="col-lg-3 col-6 mb-2">
       <div className="overflow-hidden" style={{ height: 80, width: 80 }}>
@@ -70,42 +87,171 @@ const ProductItem = ({ product, updateQuantity }) => (
       </div>
     </div>
     <div className="col-lg-12 col-6 mt-2">
-      <select name="shipping" id="shipping" className="form-select">
-        <option value="jne">JNE</option>
-        <option value="tiki">TIKI</option>
-        <option value="j&t">J&T</option>
-      </select>
+      {isLoading ? (
+        <p className="my-2">Loading...</p>
+      ) : (
+        <select
+          name="shipping"
+          id="shipping"
+          className="form-select"
+          value={courier}
+          onChange={(e) => setCourier(e.target.value)}
+        >
+          <option value="" hidden>
+            Select Courier
+          </option>
+          <option value="jne">JNE</option>
+          <option value="tiki">TIKI</option>
+          <option value="j&t">J&T</option>
+        </select>
+      )}
+      {services === null ? (
+        <p className="my-2 fst-italic">Service Unavaliable</p>
+      ) : services?.length > 0 ? (
+        <select
+          name="shipping"
+          id="shipping"
+          className="form-select mt-2"
+          value={service}
+          onChange={(e) => setService(e.target.value)}
+        >
+          <option value="" hidden>
+            Select Shipping
+          </option>
+          {services?.map((item, i) => (
+            <option key={i} value={item.cost}>{`${
+              item.description
+            }, Rp ${parseFloat(item.cost).toLocaleString("id-ID")} - ${
+              item.etd
+            }`}</option>
+          ))}
+        </select>
+      ) : null}
     </div>
   </div>
 );
 
-const ProductList = ({ checkoutProduct, updateQuantity }) => (
+const ProductList = ({
+  checkoutProduct,
+  updateQuantity,
+  courier,
+  setCourier,
+  isLoading,
+  services,
+  service,
+  setService,
+}) => (
   <div className="rounded border shadow bg-white p-2 mb-3 d-flex flex-column gap-2">
     {checkoutProduct.map((product) => (
       <ProductItem
         key={product.id}
         product={product}
         updateQuantity={updateQuantity}
+        courier={courier}
+        setCourier={setCourier}
+        isLoading={isLoading}
+        services={services}
+        service={service}
+        setService={setService}
       />
     ))}
   </div>
 );
 
-const Summary = ({ checkoutProduct }) => (
+const Summary = ({ checkoutProduct, service, proceed, loading }) => (
   <div className="rounded border shadow p-3 bg-white">
-    <p className="h5">Ringkasan Belanja</p>
-    <p>
-      Total: Rp{" "}
-      {checkoutProduct
-        .reduce((acc, product) => acc + Number(product.subtotal), 0)
-        .toLocaleString("id-ID")}
-    </p>
-    <button className="btn btn-velora-primary w-100">Bayar Sekarang</button>
+    <p className="h5">Summary Shopping</p>
+    <table className="table table-borderless">
+      <tbody>
+        <tr>
+          <td className="text-start">Subtotal</td>
+          <td className="text-end">{`Rp ${checkoutProduct
+            .reduce((acc, product) => acc + Number(product.subtotal), 0)
+            .toLocaleString("id-ID")}`}</td>
+        </tr>
+        <tr>
+          <td className="text-start">Shipping Cost</td>
+          <td className="text-end">{`Rp ${parseFloat(
+            service || 0
+          ).toLocaleString("id-ID")}`}</td>
+        </tr>
+        <tr>
+          <td className="text-start">Total</td>
+          <td className="text-end">{`Rp ${parseFloat(
+            checkoutProduct.reduce(
+              (acc, product) => acc + Number(product.subtotal),
+              0
+            ) + Number(service)
+          ).toLocaleString("id-ID")}`}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button
+      className="btn btn-velora-success w-100"
+      onClick={proceed}
+      disabled={loading || !service}
+    >
+      Pay Now
+    </button>
   </div>
 );
 
 const Checkout = () => {
+  const navigate = useNavigate();
+  const { isSignin, user } = useSelector((state) => state.auth);
   const [checkoutProduct, setCheckoutProduct] = useState([]);
+  const [courier, setCourier] = useState("");
+  const [service, setService] = useState("");
+  const [getShippingCost, { data, isLoading }] = useGetShippingCostMutation();
+
+  const [
+    createOrder,
+    { data: token, isLoading: tokenLoad, isSuccess, reset, error },
+  ] = useCreateOrderMutation();
+
+  const paymentProceed = () => {
+    const data = {
+      products: checkoutProduct,
+      gross_amount:
+        checkoutProduct.reduce(
+          (acc, product) => acc + Number(product.subtotal),
+          0
+        ) + Number(service),
+      shipping: service,
+    };
+
+    createOrder(data);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(token);
+      window.location.href = token.redirect_url;
+    }
+    if (error) {
+      toast.error(data.message);
+    }
+  }, [token, isSuccess, error]);
+  useEffect(() => {
+    const totalWeight = checkoutProduct?.reduce(
+      (sum, product) => sum + product.weight,
+      0
+    );
+    if (courier) {
+      getShippingCost({
+        courier,
+        weight: totalWeight,
+        destination: user?.address?.address_id,
+      });
+    }
+  }, [courier]);
+
+  useEffect(() => {
+    if (!isSignin) {
+      navigate("/");
+    }
+  }, [isSignin]);
 
   useEffect(() => {
     const storedProduct = sessionStorage.getItem("checkout_product");
@@ -145,11 +291,22 @@ const Checkout = () => {
               <ProductList
                 checkoutProduct={checkoutProduct}
                 updateQuantity={updateQuantity}
+                courier={courier}
+                setCourier={setCourier}
+                isLoading={isLoading}
+                services={data && data}
+                service={service}
+                setService={setService}
               />
             </div>
           </div>
           <div className="col-lg-4 col-12">
-            <Summary checkoutProduct={checkoutProduct} />
+            <Summary
+              checkoutProduct={checkoutProduct}
+              service={service}
+              proceed={paymentProceed}
+              loading={tokenLoad}
+            />
           </div>
         </div>
       </div>

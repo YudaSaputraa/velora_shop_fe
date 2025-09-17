@@ -1,5 +1,30 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
 .pointer {
   cursor: pointer;
+}
+.react-quill {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.react-quill .ql-container {
+  flex: 1 !important;
+  overflow-y: auto !important;
+}
+.ql-container {
+  border: none !important;
+}
+
+.ql-toolbar {
+  border: none !important;
+}
+.ql-editor {
+  border: none !important;
+  z-index: 200 !important;
 }
 
 /* Custom Color Palette Variables */
@@ -18,6 +43,8 @@
   --accent-dark: #d9d9a8;
   --success-light: #e8b95a;
   --success-dark: #d1942a;
+  --warning-color: #f0c85a; /* between success and accent */
+  --danger-color: #e05d5d;
 }
 
 /* Custom Color Classes - Backgrounds */
@@ -257,4 +284,221 @@ a:hover {
   background-color: rgba(236, 236, 187, 0.3) !important;
   border-color: rgba(236, 236, 187, 0.4) !important;
   color: #333 !important;
+}
+
+/* ===================== */
+/* Liquid Glass Auth UI  */
+/* ===================== */
+.liquid-glass-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(
+      1200px 800px at -10% -10%,
+      rgba(122, 218, 165, 0.35) 0%,
+      rgba(122, 218, 165, 0.1) 35%,
+      transparent 60%
+    ),
+    radial-gradient(
+      1000px 700px at 110% 110%,
+      rgba(35, 155, 167, 0.35) 0%,
+      rgba(35, 155, 167, 0.1) 40%,
+      transparent 65%
+    ),
+    linear-gradient(135deg, #e8f6ef 0%, #f6f9fb 100%);
+  overflow: hidden;
+}
+
+.liquid-blob {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.liquid-blob.primary {
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(122, 218, 165, 0.9),
+    rgba(122, 218, 165, 0.6)
+  );
+  top: -120px;
+  left: -120px;
+  animation: floatA 12s ease-in-out infinite;
+}
+
+.liquid-blob.secondary {
+  background: radial-gradient(
+    circle at 70% 70%,
+    rgba(35, 155, 167, 0.9),
+    rgba(35, 155, 167, 0.6)
+  );
+  bottom: -140px;
+  right: -140px;
+  animation: floatB 14s ease-in-out infinite;
+}
+
+@keyframes floatA {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(20px, 10px) scale(1.05);
+  }
+}
+
+@keyframes floatB {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-20px, -10px) scale(1.07);
+  }
+}
+
+.glass-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(31, 38, 135, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+.glass-title {
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  color: #133a2a;
+}
+
+.glass-subtitle {
+  margin: 0 0 18px 0;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.glass-input.form-control {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #1d2b20;
+}
+
+.glass-input.form-control::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.glass-footer {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+@media (prefers-color-scheme: dark) {
+  .liquid-glass-page {
+    background: radial-gradient(
+        1200px 800px at -10% -10%,
+        rgba(122, 218, 165, 0.1) 0%,
+        rgba(122, 218, 165, 0.06) 35%,
+        transparent 60%
+      ),
+      radial-gradient(
+        1000px 700px at 110% 110%,
+        rgba(35, 155, 167, 0.1) 0%,
+        rgba(35, 155, 167, 0.06) 40%,
+        transparent 65%
+      ),
+      linear-gradient(135deg, #0c1116 0%, #101820 100%);
+  }
+  .glass-card {
+    background: rgba(13, 25, 22, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .glass-title {
+    color: #eafff3;
+  }
+  .glass-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-input.form-control {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f2fff8;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .glass-input.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .glass-footer {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* User Sidebar */
+.sidebar-item .nav-link {
+  color: #2a2f2b;
+}
+.sidebar-item:hover {
+  background: rgba(122, 218, 165, 0.12);
+}
+.sidebar-item:hover .nav-link {
+  color: var(--secondary-dark);
+}
+.sidebar-item-active {
+  background: rgba(35, 155, 167, 0.12);
+  border-left: 3px solid var(--secondary-color);
+}
+.sidebar-item-active .nav-link {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+/* Category Pills */
+.category-item {
+  background: #ffffff;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+.category-item:hover {
+  background: rgba(122, 218, 165, 0.12);
+  border-color: rgba(122, 218, 165, 0.35) !important;
+}
+.category-item-active {
+  background: rgba(35, 155, 167, 0.12);
+  border-color: var(--secondary-color) !important;
+}
+.category-item-active p {
+  color: var(--secondary-dark);
+  font-weight: 600;
+}
+
+.badge-status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+.badge-status-shipping {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+.badge-status-processing {
+  background-color: var(--secondary-light) !important;
+  color: #fff !important;
+}
+.badge-status-rejected {
+  background-color: var(--danger-color) !important;
+  color: #fff !important;
+}
+.badge-status-waiting {
+  background-color: var(--warning-color) !important;
+  color: #fff !important;
 }

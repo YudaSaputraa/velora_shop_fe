@@ -1,26 +1,48 @@
 import React, { useEffect, useState } from "react";
+import {
+  useCreateCartMutation,
+  useUpdateCartItemMutation,
+} from "../../api/req/ApiCart";
 
-const Products = ({ product, onSelect }) => {
-  const [quantity, setQuantity] = useState(1);
+const Products = ({ product, onSelect, cartId }) => {
+  const [quantity, setQuantity] = useState(product.quantity);
   const [price, setPrice] = useState(product.price);
   const [weight, setWeight] = useState(product.weight);
   const [isChecked, setIsChecked] = useState(false);
+  const unitPrice = product.price / product.quantity;
 
-  const increaseQuantity = () => {
+  const [updateCartItem, { data, isLoading, isSuccess, error, reset }] =
+    useUpdateCartItemMutation();
+
+  const increaseQuantity = async () => {
     if (quantity < product.stock) {
       setQuantity(quantity + 1);
+
+      await updateCartItem({
+        cartId,
+        productId: product.id,
+        quantity: quantity + 1,
+        price: (quantity + 1) * unitPrice,
+      });
     }
   };
 
-  const decreaseQuantity = () => {
+  const decreaseQuantity = async () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
+
+      await updateCartItem({
+        cartId,
+        productId: product.id,
+        quantity: quantity - 1,
+        price: (quantity - 1) * unitPrice,
+      });
     }
   };
 
   useEffect(() => {
-    setPrice(quantity * product.price);
-    setWeight(quantity * product.weight);
+    setPrice(quantity * unitPrice);
+    setWeight((product.weight / product.quantity) * quantity);
   }, [quantity]);
 
   const handleCheckboxChange = () => {
@@ -40,9 +62,9 @@ const Products = ({ product, onSelect }) => {
             className="form-check-input pointer"
             onChange={handleCheckboxChange}
           />
-          <div className="overflow-hidden" style={{ height: 80, width: 80 }}>
+          <div className="overflow-hidden" style={{ height: 100, width: 100 }}>
             <img
-              src={product.images[0].link}
+              src={product.img}
               width="100%"
               style={{ objectFit: "cover" }}
             />
@@ -58,13 +80,19 @@ const Products = ({ product, onSelect }) => {
       </div>
       <div className="col-lg-3 col-6">
         <div className="d-flex gap-1 align-items-center justify-content-between border rounded p-1">
-          <button className="btn btn-pill btn-light" onClick={decreaseQuantity}>
+          <button
+            className="btn btn-pill bg-velora-success"
+            onClick={decreaseQuantity}
+          >
             -
           </button>
           <p className="m-0 text-center text-secondary" style={{ width: 50 }}>
             {quantity}
           </p>
-          <button className="btn btn-pill btn-light" onClick={increaseQuantity}>
+          <button
+            className="btn btn-pill bg-velora-primary"
+            onClick={increaseQuantity}
+          >
             +
           </button>
         </div>

@@ -12,12 +12,12 @@ const Filters = ({ setLimit }) => {
     <div className="d-flex gap-4">
       <select name="price" id="sort" className="form-select pointer">
         <option value="" hidden>
-          --Urutkan--
+          Sort by
         </option>
-        <option value="lowest">Terendah</option>
-        <option value="lowest">Tertinggi</option>
-        <option value="lowest">Terbaru</option>
-        <option value="lowest">Terlaris</option>
+        <option value="lowest">Lowest</option>
+        <option value="highest">Highest</option>
+        <option value="newest">Newest</option>
+        <option value="bestseller">Best Seller</option>
       </select>
 
       <select
@@ -28,7 +28,7 @@ const Filters = ({ setLimit }) => {
         onChange={handleLimit}
       >
         <option value="" hidden>
-          --Tampilkan Produk--
+          Show entries
         </option>
         <option value="14">14</option>
         <option value="28">28</option>

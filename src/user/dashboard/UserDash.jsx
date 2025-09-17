@@ -6,6 +6,7 @@ import { useUpdateProfileMutation } from "../../api/req/ApiUser";
 import { toast } from "react-toastify";
 import { useLoadUserMutation } from "../../api/req/ApiAuth";
 import Address from "./Address";
+import MetaData from "../../components/meta/MetaData";
 
 const UserDash = () => {
   const { user } = useSelector((state) => state.auth);
@@ -73,9 +74,9 @@ const UserDash = () => {
   return (
     <Layout>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom bg-white border p-2 rounded shadow">
-        <h1 className="h2">Dashboard</h1>
+        <h1 className="h2 text-velora-secondary">Dashboard</h1>
       </div>
-
+      <MetaData title={"User Dashboard"} desc={"Ecommerce easy shopping"} />
       <div className="bg-white p-4 border shadow rounded orverflow-auto">
         <div className="row">
           <div className="col-lg-6 col-12">
@@ -136,7 +137,7 @@ const UserDash = () => {
                   className="btn btn-velora-success"
                   disabled={isLoading}
                 >
-                  Update
+                  {isLoading ? "Loading.." : "Update"}
                 </button>
               </div>
             </form>

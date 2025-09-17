@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useCreateCartMutation } from "../api/req/ApiCart";
 
 const Counter = ({ product }) => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(product.price);
+
+  const { isSignin, user } = useSelector((state) => state.auth);
+  const [createCart, { data, isLoading, isSuccess, error, reset }] =
+    useCreateCartMutation();
+
+  const createCartHandler = () => {
+    createCart({
+      products: [{ id: product.id, quantity: quantity, price: price }],
+    });
+  };
 
   const increaseQuantity = () => {
     if (quantity < product.stock) {
@@ -19,6 +32,12 @@ const Counter = ({ product }) => {
   };
 
   const handleBuy = () => {
+    if (!isSignin) {
+      return toast.info("Please login first!");
+    }
+    if (!user?.address.id) {
+      return toast.info("Please complete your address!");
+    }
     const checkoutProduct = [
       {
         id: product.id,
@@ -41,9 +60,18 @@ const Counter = ({ product }) => {
     setPrice(quantity * product.price);
   }, [quantity]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message);
+    }
+    if (error) {
+      toast.error(error.data.message);
+    }
+  }, [isSuccess, error]);
+
   return (
     <div className="rounded p-2 bg-white border border-2 shadow w-100 d-flex flex-column gap-2">
-      <p className="m-0 h6">Atur jumlah</p>
+      <p className="m-0 h6">Quantity</p>
 
       <div className="d-flex align-items-center justify-content-between">
         <div className="d-flex gap-1 align-items-center p-1 rounded border">
@@ -59,7 +87,7 @@ const Counter = ({ product }) => {
         </div>
 
         <p className="m-0">
-          Stok Total: <strong>{product.stock}</strong>
+          Total Stock: <strong>{product.stock}</strong>
         </p>
       </div>
 
@@ -72,9 +100,11 @@ const Counter = ({ product }) => {
 
       <div className="d-flex justify-content-center gap-2">
         <button className="btn btn-outline-success" onClick={handleBuy}>
-          Beli
+          Buy
         </button>
-        <button className="btn btn-velora-success">+ Keranjang</button>
+        <button className="btn btn-velora-success" onClick={createCartHandler}>
+          + Cart
+        </button>
       </div>
     </div>
   );
