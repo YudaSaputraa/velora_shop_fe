@@ -45,7 +45,7 @@ const TableComponent = ({
             className="form-control"
             name="search"
             id="search"
-            placeholder="Ketikan di sini..."
+            placeholder="Search here"
             style={{ width: 300 }}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -71,7 +71,7 @@ const TableComponent = ({
                 data-bs-target={`#${id}`}
                 className="btn btn-velora-success"
               >
-                Tambah
+                Create
               </button>
             )}
           </div>

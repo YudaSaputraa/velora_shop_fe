@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const ApiAuth = createApi({
-  reducerPath: "/ApiAuth",
+  reducerPath: "/apiAuth",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_API_BASE_URL}/authentication`,
     credentials: "include",
@@ -26,6 +26,7 @@ export const ApiAuth = createApi({
         url: "/load-user",
         method: "GET",
       }),
+      invalidatesTags: ["loadUser"],
     }),
     logout: builder.mutation({
       query: () => ({

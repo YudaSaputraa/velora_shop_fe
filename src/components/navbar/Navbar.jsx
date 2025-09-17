@@ -46,8 +46,8 @@ const Navbar = ({ setSearch }) => {
                 onClick={() => navigate("/")}
               >
                 <img
-                  src="/image/logo.png"
-                  width="80%"
+                  src="/image/icon_v.png"
+                  width="110%"
                   style={{ objectFit: "cover" }}
                   alt="Logo"
                 />
@@ -59,7 +59,7 @@ const Navbar = ({ setSearch }) => {
             <div className="col-lg-4 col-6 d-flex align-items-center">
               <input
                 type="text"
-                placeholder="Cari apa aja..."
+                placeholder="Search here"
                 className="form-control"
                 value={value || ""}
                 onChange={handleSearch}

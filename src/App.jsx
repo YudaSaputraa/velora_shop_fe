@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useLoadUserMutation } from "./api/req/ApiAuth";
 import { setLogin } from "./api/slice/AuthSlice";
+import MetaData from "./components/meta/MetaData";
 
 const Detail = lazy(() => import("./product/Detail"));
 const Checkout = lazy(() => import("./user/checkout/Checkout"));
@@ -43,6 +44,7 @@ function App() {
   return (
     <BrowserRouter>
       <ToastContainer position="bottom-right" theme="colored" />
+      <MetaData title={"VELORA"} desc={"Ecommerce easy shopping"} />
       <Suspense fallback={<p>Loading...</p>}>
         <Routes>
           <Route path="/signin" element={<Signin />} />

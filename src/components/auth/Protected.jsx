@@ -4,16 +4,16 @@ import { useNavigate } from "react-router-dom";
 
 const Protected = ({ roles }) => {
   const navigate = useNavigate();
-  const { user, signin } = useSelector((state) => state.auth);
+  const { user, isSignin } = useSelector((state) => state.auth);
 
   useState(() => {
     const timeout = setTimeout(() => {
-      if (!user || !roles.includes(user.level) || !signin) {
+      if (!user || !roles.includes(user.level) || !isSignin) {
         navigate("/signin");
       }
     }, 500);
     return () => clearTimeout(timeout);
-  }, [user, signin, roles]);
+  }, [user, isSignin, roles]);
   return null;
 };
 

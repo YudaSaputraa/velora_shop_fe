@@ -3,13 +3,21 @@ import Layout from "../../components/layout/Layout";
 import { products } from "../../Data";
 import Products from "./Products";
 import { useNavigate } from "react-router-dom";
+import { useGetCartsQuery } from "../../api/req/ApiCart";
+import MetaData from "../../components/meta/MetaData";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState(products.slice(0, 2));
+  const [cartItems, setCartItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const navigate = useNavigate();
+
+  const {
+    data: rawData = [],
+    isLoading: cartLoad,
+    isSuccess: cartSuccess,
+  } = useGetCartsQuery();
 
   const handleSelectProduct = (product, quantity, weight, price, isChecked) => {
     let updatedItems;
@@ -37,7 +45,7 @@ const Cart = () => {
     const checkoutProduct = selectedItems.map((item) => ({
       id: item.id,
       name: item.name,
-      img: item.images[0].link,
+      img: item.img,
       price: item.price,
       quantity: item.quantity,
       subtotal: item.price,
@@ -49,9 +57,21 @@ const Cart = () => {
 
     navigate("/checkout");
   };
+  useEffect(() => {
+    if (rawData?.data) {
+      const allProducts = rawData.data.flatMap((cart) =>
+        cart.products.map((p) => ({
+          ...p,
+          cartId: cart.id,
+        }))
+      );
+      setCartItems(allProducts);
+    }
+  }, [rawData]);
 
   return (
     <Layout>
+      <MetaData title={"cart"} desc={"Ecommerce easy shopping"} />
       <div className="container mt-4">
         <p className="h3">Keranjang</p>
         <div className="row">
@@ -59,6 +79,7 @@ const Cart = () => {
             <div className="d-flex flex-column gap-2">
               {cartItems?.map((product, i) => (
                 <Products
+                  cartId={rawData.data[0]?.id}
                   key={i}
                   product={product}
                   onSelect={handleSelectProduct}

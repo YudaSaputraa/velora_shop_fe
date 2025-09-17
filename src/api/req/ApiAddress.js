@@ -1,33 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const ApiAddress = createApi({
-  reducerPath: "/ApiAddress",
+  reducerPath: "/apiAddress",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_API_BASE_URL}/address`,
     credentials: "include",
   }),
   endpoints: (builder) => ({
-    getProvinces: builder.query({
-      query: () => ({
-        url: "/get-provinces",
-        method: "GET",
-      }),
-    }),
-    getCity: builder.query({
-      query: (provinceId) => ({
-        url: `/get-city/${provinceId}`,
-        method: "GET",
-      }),
-    }),
-    getDistrict: builder.query({
-      query: (cityId) => ({
-        url: `/get-district/${cityId}`,
-        method: "GET",
-      }),
-    }),
-    getVillage: builder.query({
-      query: (districtId) => ({
-        url: `/get-village/${districtId}`,
+    getCities: builder.mutation({
+      query: (city) => ({
+        url: `/get-cities/${city}`,
         method: "GET",
       }),
     }),
@@ -38,13 +20,18 @@ export const ApiAddress = createApi({
         body,
       }),
     }),
+    getShippingCost: builder.mutation({
+      query: ({ courier, weight, destination }) => ({
+        url: "/cost",
+        method: "GET",
+        params: { courier, weight, destination },
+      }),
+    }),
   }),
 });
 
 export const {
-  useGetProvincesQuery,
-  useGetCityQuery,
-  useGetDistrictQuery,
-  useGetVillageQuery,
+  useGetCitiesMutation,
   useAddAddressMutation,
+  useGetShippingCostMutation,
 } = ApiAddress;

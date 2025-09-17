@@ -41,9 +41,10 @@ const Index = () => {
             <Category
               key={index}
               name={category.name}
-              icon={category.icon || "📦"}
+              icon={category.image || "./image/no-icon.png"}
               id={category.id}
               setCategory={(e) => setCategoryId(e)}
+              selectedId={categoryId}
             />
           ))}
         </div>
@@ -59,7 +60,7 @@ const Index = () => {
         </div>
       </div>
 
-      {/* <Footer categories={categories} /> */}
+      <Footer categories={categoriesData} />
     </div>
   );
 };
